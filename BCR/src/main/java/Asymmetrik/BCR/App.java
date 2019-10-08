@@ -21,7 +21,7 @@ public class App {
 	}
 	
     public static void main(String[] args) throws IOException {    
-        String text = fileToString("/Users/kevinaranyi/Desktop/asymmetrik-workspace/Business-Card-Challenge/input.txt");
+        String text = fileToString(args[0]);
      	ContactInfo info = BusinessCardParser.getContactInfo(text);
         
         System.out.println("Name: " + info.getName());

@@ -19,7 +19,7 @@ public class BusinessCardParser {
 	public static ContactInfo getContactInfo(String text) {
      	String name = "";
      	String email = "";
-     	String number = null;
+     	String number = "";
         
         Properties props = new Properties();
         props.put("regexner.mapping", "tokens.rules");
@@ -29,7 +29,7 @@ public class BusinessCardParser {
         pipeline.annotate(document);
         
         List<CoreMap> mentions = document.get(MentionsAnnotation.class);
-        List<String> potentialPhoneNumber = new ArrayList<String>();
+        List<String> potentialPhoneNumbers = new ArrayList<String>();
         
         List<CoreMap> sentences = document.get(SentencesAnnotation.class);
         
@@ -39,7 +39,7 @@ public class BusinessCardParser {
         	String sen = sentence.get(TextAnnotation.class);
         	Matcher m = pattern.matcher(sen);
             if (m.find()) {
-            	potentialPhoneNumber.add(sen);
+            	potentialPhoneNumbers.add(sen);
             }
         }
         
@@ -53,14 +53,14 @@ public class BusinessCardParser {
         	}
         }
         
-        if (potentialPhoneNumber.size() > 1) {
-        	for (String num : potentialPhoneNumber) {
+        if (potentialPhoneNumbers.size() > 1) {
+        	for (String num : potentialPhoneNumbers) {
         		if (!num.contains("Fax")) {
         			number = num;
         		}
         	}
         } else {
-        	number = potentialPhoneNumber.get(0);
+        	number = potentialPhoneNumbers.get(0);
         }
         
         number = number.replaceAll("\\D+","");
